@@ -1,4 +1,4 @@
-# Displace CLI Installation Script
+# Displace CLI
 
 This directory contains the installation script for the Displace CLI tool. The script is designed to be hosted in the `displacetech/displace-cli` repository to provide easy installation for end users.
 
@@ -159,7 +159,7 @@ brew install curl jq
 
 3. **Use specific versions** for reproducible installations:
    ```bash
-   ./install-advanced.sh --version v2025.08.abc123
+   ./install.sh --version v2025.08.abc123
    ```
 
 ## Troubleshooting
@@ -169,7 +169,7 @@ brew install curl jq
 1. **Permission Denied**:
    ```bash
    # Use user installation
-   ./install-advanced.sh --user
+   ./install.sh --user
    
    # Or run with sudo
    sudo ./install.sh
@@ -224,18 +224,18 @@ displace update --enable-auto
 
 ### Advanced Installation Flow
 ```bash
-# 1. Download advanced installer
-wget https://raw.githubusercontent.com/displacetech/displace-cli/main/install-advanced.sh
-chmod +x install-advanced.sh
+# 1. Download installer
+wget https://raw.githubusercontent.com/displacetech/displace-cli/main/install.sh
+chmod +x install.sh
 
 # 2. Install specific version to custom location
-./install-advanced.sh --version v2025.08.abc123 --install-dir /opt/displace
+./install.sh --version v2025.08.abc123 --install-dir /opt/displace
 
 # 3. Later, update to latest
-./install-advanced.sh --update
+./install.sh --update
 
 # 4. If needed, uninstall
-./install-advanced.sh --uninstall
+./install.sh --uninstall
 ```
 
 ### Corporate/Scripted Installation
@@ -248,7 +248,7 @@ VERSION="v2025.08.abc123"
 INSTALL_DIR="/opt/displace"
 
 # Download installer
-curl -sSfL https://raw.githubusercontent.com/displacetech/displace-cli/main/install-advanced.sh -o /tmp/install-displace.sh
+curl -sSfL https://raw.githubusercontent.com/displacetech/displace-cli/main/install.sh -o /tmp/install-displace.sh
 chmod +x /tmp/install-displace.sh
 
 # Install specific version
