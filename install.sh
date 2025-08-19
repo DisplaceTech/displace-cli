@@ -332,8 +332,8 @@ get_release_info() {
     fi
     
     # Determine download URL based on platform
-    local asset_name="${BINARY_NAME}_${OS}_${ARCH}"
-    if [[ "$OS" == "linux" ]]; then
+    local asset_name="${BINARY_NAME}_${PLATFORM_OS}_${ARCH}"
+    if [[ "$PLATFORM_OS" == "linux" ]]; then
         asset_name="${asset_name}.tar.gz"
     else
         asset_name="${asset_name}.zip" 
