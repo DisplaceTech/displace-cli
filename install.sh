@@ -24,6 +24,8 @@ VERBOSE=false
 
 # Release information (set by get_release_info)
 RELEASE_VERSION=""
+RELEASE_NAME=""
+RELEASE_BODY=""
 RELEASE_URL=""
 DOWNLOAD_URL=""
 
@@ -302,48 +304,6 @@ version_compare() {
         return 0  # Current is older
     else
         return 1  # Current is newer or same
-    fi
-}
-
-# Get release information from GitHub
-get_release_info() {
-    local version_request="$1"
-    
-    log "Fetching release information..."
-    
-    if [[ "$version_request" == "latest" ]]; then
-        local release_url="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
-    else
-        local release_url="https://api.github.com/repos/$GITHUB_REPO/releases/tags/$version_request"
-    fi
-    
-    # Fetch release information
-    local release_info
-    if ! release_info=$(curl -sSf "$release_url"); then
-        fatal "Failed to fetch release information from GitHub"
-    fi
-    
-    # Extract release data
-    RELEASE_VERSION=$(echo "$release_info" | grep '"tag_name"' | sed -E 's/.*"tag_name": "v?([^"]+)".*/\1/')
-    RELEASE_URL=$(echo "$release_info" | grep '"html_url"' | head -n1 | sed -E 's/.*"html_url": "([^"]+)".*/\1/')
-    
-    if [[ -z "$RELEASE_VERSION" ]]; then
-        fatal "Could not parse release version from GitHub API"
-    fi
-    
-    # Determine download URL based on platform
-    local asset_name="${BINARY_NAME}_${PLATFORM_OS}_${PLATFORM_ARCH}"
-    if [[ "$PLATFORM_OS" == "linux" ]]; then
-        asset_name="${asset_name}.tar.gz"
-    else
-        asset_name="${asset_name}.zip" 
-    fi
-    
-    DOWNLOAD_URL="https://github.com/$GITHUB_REPO/releases/download/v$RELEASE_VERSION/$asset_name"
-    
-    log "Found release: $RELEASE_VERSION"
-    if [[ "$VERBOSE" == true ]]; then
-        log "Download URL: $DOWNLOAD_URL"
     fi
 }
 
