@@ -65,7 +65,7 @@ show_usage() {
     echo "Usage: $0 [OPTIONS]"
     echo ""
     echo "Options:"
-    echo "  --version VERSION     Install specific version (e.g., v2025.08.abc123)"
+    echo "  --version VERSION    Install specific version (e.g., v1.0.0)"
     echo "  --update             Update existing installation to latest version"
     echo "  --uninstall          Remove displace installation"
     echo "  --force              Force installation (overwrite existing)"
@@ -75,8 +75,8 @@ show_usage() {
     echo "  --help               Show this help message"
     echo ""
     echo "Examples:"
-    echo "  $0                                    # Install latest version"
-    echo "  $0 --version v2025.08.abc123         # Install specific version"
+    echo "  $0                                   # Install latest version"
+    echo "  $0 --version v1.0.0                  # Install specific version"
     echo "  $0 --update                          # Update to latest"
     echo "  $0 --user --force                    # Force install to user directory"
     echo "  $0 --uninstall                       # Remove installation"
@@ -294,13 +294,36 @@ version_compare() {
     current=${current#v}
     target=${target#v}
     
+    # Remove -dev suffix from current version for comparison
+    current=${current%-dev}
+    target=${target%-dev}
+    
     if [[ "$current" == "$target" ]]; then
         return 1  # Same version
     fi
     
-    # For CalVer, we can do a simple string comparison after normalization
-    # since YYYY.MM.PATCH format sorts lexicographically
-    if [[ "$current" < "$target" ]]; then
+    # For SemVer, we need to parse and compare major.minor.patch
+    # Split versions into components
+    local IFS='.'
+    local current_parts=($current)
+    local target_parts=($target)
+    
+    # Compare major version
+    if (( ${current_parts[0]} < ${target_parts[0]} )); then
+        return 0  # Current is older
+    elif (( ${current_parts[0]} > ${target_parts[0]} )); then
+        return 1  # Current is newer
+    fi
+    
+    # Major versions are equal, compare minor
+    if (( ${current_parts[1]} < ${target_parts[1]} )); then
+        return 0  # Current is older
+    elif (( ${current_parts[1]} > ${target_parts[1]} )); then
+        return 1  # Current is newer
+    fi
+    
+    # Major and minor are equal, compare patch
+    if (( ${current_parts[2]} < ${target_parts[2]} )); then
         return 0  # Current is older
     else
         return 1  # Current is newer or same
