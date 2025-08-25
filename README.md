@@ -54,7 +54,7 @@ chmod +x install.sh
 #### Advanced Usage
 ```bash
 # Install specific version
-./install.sh --version v2025.08.abc123
+./install.sh --version v1.0.2
 
 # Update existing installation
 ./install.sh --update
@@ -159,7 +159,7 @@ brew install curl jq
 
 3. **Use specific versions** for reproducible installations:
    ```bash
-   ./install.sh --version v2025.08.abc123
+   ./install.sh --version v1.0.2
    ```
 
 ## Troubleshooting
@@ -229,7 +229,7 @@ wget https://raw.githubusercontent.com/displacetech/displace-cli/main/install.sh
 chmod +x install.sh
 
 # 2. Install specific version to custom location
-./install.sh --version v2025.08.abc123 --install-dir /opt/displace
+./install.sh --version v1.0.2 --install-dir /opt/displace
 
 # 3. Later, update to latest
 ./install.sh --update
@@ -244,7 +244,7 @@ chmod +x install.sh
 # Corporate deployment script
 
 # Set specific version for consistency
-VERSION="v2025.08.abc123"
+VERSION="v1.0.2"
 INSTALL_DIR="/opt/displace"
 
 # Download installer
